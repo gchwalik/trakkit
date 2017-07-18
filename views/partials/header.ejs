@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Trakkit</title>
+		<!-- Latest compiled and minified CSS -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+		
+		<!-- jQuery library -->
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+		
+		<!-- Latest compiled JavaScript -->
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+		<!--<link rel="stylesheet" href="/stylesheets/main.css">-->
+	</head>
+	<body>
+		
+		<nav class="navbar navbar-default">
+		  <div class="container">
+		  	<div class="row">
+		  	  <div class="col-md-2"></div>
+		  	  <div class="col-md-8">
+		  		<!-- Brand and toggle get grouped for better mobile display -->
+			    <div class="navbar-header">
+			      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example" aria-expanded="false">
+			        <span class="sr-only">Toggle navigation</span>
+			        <span class="icon-bar"></span>
+			        <span class="icon-bar"></span>
+			        <span class="icon-bar"></span>
+			      </button>
+			      <a class="navbar-brand" href="/">Trakkit</a>
+			    </div>
+			    
+			    
+			    <!-- Collect the nav links, forms, and other content for toggling -->
+			    <div class="collapse navbar-collapse" id="bs-example">
+	 			  <ul class="nav navbar-nav">
+					<% if(currentUser) { %>
+				        <li><a href="/secret">My Events</a></li>
+					<% } %>
+			      </ul>
+			      <ul class="nav navbar-nav navbar-right">
+			      	<% if(!currentUser) { %>
+		  		      	<li><a href="/login">Login</a></li>
+			  	      	<li><a href="/register">Sign up</a></li>
+	                <% } else { %>		      	
+	            		<li><a href="#">Signed in as "<%= currentUser.username %>"</a></li>
+			        	<li><a href="/logout">Logout</a></li>
+			      	<% } %>
+			      </ul>
+			    </div><!-- /.navbar-collapse -->
+			  </div> <!-- col-md-8 -->
+		  	  <div class="col-md-2"></div>
+		  	</div>
+		  </div><!-- /.container -->
+		</nav>
