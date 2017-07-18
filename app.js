@@ -65,8 +65,8 @@ app.use(function(req, res, next) {
 //before it does anything else
 //if isLoggedIn shows the user is currently authenticated, it calls next()
 //which refers to our lambda function here rendering the secret page
-app.get("/secret", middleware.isLoggedIn, function(req, res) {
-	res.render("secret");
+app.get("/events", middleware.isLoggedIn, function(req, res) {
+	res.render("events");
 });
 
 

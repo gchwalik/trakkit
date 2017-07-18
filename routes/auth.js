@@ -27,7 +27,7 @@ router.post("/register", function(req, res) {
 			// and specifically uses the "local" strategy as specified below
 			//Could optionally use "twitter" or "facebook", or any other strategy
 			passport.authenticate("local")(req, res, function() {
-				res.redirect("/secret");
+				res.redirect("/events");
 			});
 	});
 });
@@ -46,7 +46,7 @@ router.get("/login", function(req, res) {
 //the idea is that they sit between the beginning of the route, and the
 //handler of the route (callback function), that sits at the end
 router.post("/login", passport.authenticate("local", {
-	successRedirect: "/secret",
+	successRedirect: "/events",
 	failureRedirect: "/login"
 }), function(req, res) {
 	
