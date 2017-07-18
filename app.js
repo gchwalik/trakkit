@@ -10,7 +10,8 @@ var User = require("./models/user"),
     Event = require("./models/event");
 
 //requiring routes
-var authRoutes = require("./routes/auth.js");
+var authRoutes = require("./routes/auth.js"),
+    eventRoutes = require("./routes/events.js")
 //if we just require a directory, the framework automatically imports
 //the contents of the index.js file
 var middleware = require("./middleware/auth.js");
@@ -61,13 +62,7 @@ app.use(function(req, res, next) {
 //===========
 // ROUTES
 //===========
-//when a get request comes in for "/secret", it first runs isLoggedIn
-//before it does anything else
-//if isLoggedIn shows the user is currently authenticated, it calls next()
-//which refers to our lambda function here rendering the secret page
-app.get("/events", middleware.isLoggedIn, function(req, res) {
-	res.render("events");
-});
+
 
 
 app.get("/", function(req, res) {
@@ -76,6 +71,7 @@ app.get("/", function(req, res) {
 
 
 app.use("/", authRoutes);
+app.use("/events", eventRoutes);
 
 
 
