@@ -22,6 +22,8 @@ var app = express();
 app.set('view engine', 'ejs');
 //need this line anytime we're using a form and posting data to a request
 app.use(bodyParser.urlencoded({extended: true}));
+//__dirname refers to the dir this script is run from
+app.use(express.static(__dirname + "/public"));
 
 //inline declaration of a require()
 //running it as a function and passing in some arguments

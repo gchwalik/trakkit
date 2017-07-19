@@ -1,0 +1,8 @@
+.icon {
+	display:flex; 
+	flex-wrap: wrap;
+}
+
+.header {
+	margin-bottom: 30px;
+}

@@ -12,7 +12,16 @@ var middleware = require("../middleware/auth.js");
 //if isLoggedIn shows the user is currently authenticated, it calls next()
 //which refers to our lambda function here rendering the secret page
 router.get("/", middleware.isLoggedIn, function(req, res) {
-	res.render("./events/index.ejs");
+	Event.find({}, function(err, allEvents) {
+	  if(err) {
+	    console.log(err);
+	    res.redirect("/");
+	  }
+	  else {
+	    //we also get the current logged in user for free from passport with req.user
+	    res.render("events/index", {events: allEvents});
+	  }
+	});
 });
 
 router.post("/", middleware.isLoggedIn, function(req, res) {
@@ -35,7 +44,7 @@ router.post("/", middleware.isLoggedIn, function(req, res) {
     else {
       //redirect back to campgrounds page
       //default is to redirect with a GET requests
-      res.redirect("events");      
+      res.redirect("/events");      
     }
    });
 
