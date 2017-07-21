@@ -23,9 +23,6 @@ router.get("/", middleware.isLoggedIn, function(req, res) {
 	    res.redirect("/");
 	  }
 	  else {
-	    allEvents.forEach(function(event) {
-	      console.log(event.author.id);
-	    });
 	    //we also get the current logged in user for free from passport with req.user
 	    res.render("events/index", {events: allEvents});
 	  }
@@ -81,31 +78,32 @@ router.get("/:id", function(req, res) {
 });
 
 
-// //EDIT CAMPGROUND ROUTE - form
-// router.get("/:id/edit", middleware.checkCampgroundOwnership, function(req, res) {
-//   Campground.findById(req.params.id, function(err, foundCampground) {
-//     if(err) {
-//       console.log(err);
-//     }
-//     else {
-//       res.render("campgrounds/edit", {campground: foundCampground});
-//     }
-//   });
-// });
+//EDIT EVENT ROUTE - form
+router.get("/:id/edit", function(req, res) {
+  Event.findById(req.params.id, function(err, foundEvent) {
+    if(err) {
+      console.log(err);
+      res.redirect("/events");
+    }
+    else {
+      res.render("./events/edit", {event: foundEvent});
+    }
+  });
+});
 
-// //UPDATE CAMPGROUND ROUTE
-// router.put("/:id", middleware.checkCampgroundOwnership, function(req, res) {
-//   //find and update the correct campground
-//   Campground.findByIdAndUpdate(req.params.id, req.body.campground, function(err, updatedCampground) {
-//     if(err) {
-//       res.redirect("/campgrounds");
-//     }
-//     else {
-//       //redirect somewhere (show page)
-//       res.redirect("/campgrounds/" + req.params.id);
-//     }
-//   });
-// });
+//UPDATE EVENT ROUTE
+router.put("/:id", function(req, res) {
+  //find and update the correct event
+  Event.findByIdAndUpdate(req.params.id, req.body.event, function(err, updatedEvent) {
+    if(err) {
+      res.redirect("/events");
+    }
+    else {
+      //redirect somewhere (show page)
+      res.redirect("/events/" + req.params.id);
+    }
+  });
+});
 
 // //DESTROY CAMPGROUND ROUTE
 // router.delete("/:id", middleware.checkCampgroundOwnership, function(req, res) {

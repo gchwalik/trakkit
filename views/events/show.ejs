@@ -1,8 +1,17 @@
 <% include ../partials/header %>
 
-    <div class="jumbotron">
-        adfasdf
-        <%= event %>
+    <div class="jumbotron" style="border: 4px solid <%= event.color %>">
+        
+        <h2><strong><%= event.name %></strong></h2>
+        <p><%= event.description %></p>
+
+    	<% if(currentUser && event.author.id.equals(currentUser._id)) { %>
+			<a class="btn btn-default" href="/events/<%= event._id %>/edit">Edit</a>
+			<form id="deleteForm" action="/events/<%= event._id %>?_method=DELETE" method="POST">
+	    		<button class="btn btn-default">Delete</button>
+			</form>
+		<% } %>
+
     </div> <!-- jumbotron -->
 	<div class="well">
 	

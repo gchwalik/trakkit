@@ -1,9 +1,11 @@
 var express = require("express"),
     mongoose = require("mongoose"),
+    methodOverride = require("method-override"),
     passport = require("passport"),
     bodyParser = require("body-parser"),
     passportLocalMongoose = require("passport-local-mongoose"),
     LocalStrategy = require("passport-local");
+
 
 //requiring models/schemas
 var User = require("./models/user"),
@@ -24,6 +26,8 @@ app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({extended: true}));
 //__dirname refers to the dir this script is run from
 app.use(express.static(__dirname + "/public"));
+app.use(methodOverride("_method"));
+
 
 //inline declaration of a require()
 //running it as a function and passing in some arguments
