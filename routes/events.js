@@ -105,17 +105,17 @@ router.put("/:id", function(req, res) {
   });
 });
 
-// //DESTROY CAMPGROUND ROUTE
-// router.delete("/:id", middleware.checkCampgroundOwnership, function(req, res) {
-//   Campground.findByIdAndRemove(req.params.id, function(err) {
-//     if(err) {
-//       res.redirect("/campgrounds");
-//     }
-//     else {
-//       res.redirect("/campgrounds");
-//     }
-//   });
-// });
+//DESTROY EVENT ROUTE
+router.delete("/:id", function(req, res) {
+  Event.findByIdAndRemove(req.params.id, function(err) {
+    if(err) {
+      res.redirect("/events");
+    }
+    else {
+      res.redirect("/events");
+    }
+  });
+});
 
 
 module.exports = router;
