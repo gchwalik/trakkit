@@ -1,5 +1,8 @@
 var express = require("express");
-var router = express.Router()
+var ObjectId = require('mongoose').Schema.ObjectId;
+
+var router = express.Router();
+
 
 var Event = require("../models/event");
 
@@ -11,6 +14,8 @@ var middleware = require("../middleware/auth.js");
 //before it does anything else
 //if isLoggedIn shows the user is currently authenticated, it calls next()
 //which refers to our lambda function here rendering the secret page
+
+//INDEX
 router.get("/", middleware.isLoggedIn, function(req, res) {
 	Event.find({}, function(err, allEvents) {
 	  if(err) {
@@ -18,12 +23,16 @@ router.get("/", middleware.isLoggedIn, function(req, res) {
 	    res.redirect("/");
 	  }
 	  else {
+	    allEvents.forEach(function(event) {
+	      console.log(event.author.id);
+	    });
 	    //we also get the current logged in user for free from passport with req.user
 	    res.render("events/index", {events: allEvents});
 	  }
 	});
 });
 
+//CREATE - persist new event
 router.post("/", middleware.isLoggedIn, function(req, res) {
    var name = req.body.name;
    var desc = req.body.description;
@@ -50,9 +59,65 @@ router.post("/", middleware.isLoggedIn, function(req, res) {
 
 });
 
-//NEW - show form to create new campground
+//NEW - show form to create new event
 router.get("/new", middleware.isLoggedIn, function(req, res) {
   res.render("events/new");	
 });
+
+
+//SHOW - show details of one event
+router.get("/:id", function(req, res) {
+  //find the campground with provided ID
+  Event.findById(req.params.id, function(err, foundEvent) {
+    if(err) {
+      console.log(err);
+      res.redirect("/events");
+    }
+    else {
+      //render show template with campground
+      res.render("./events/show", {event: foundEvent});
+    }
+  });
+});
+
+
+// //EDIT CAMPGROUND ROUTE - form
+// router.get("/:id/edit", middleware.checkCampgroundOwnership, function(req, res) {
+//   Campground.findById(req.params.id, function(err, foundCampground) {
+//     if(err) {
+//       console.log(err);
+//     }
+//     else {
+//       res.render("campgrounds/edit", {campground: foundCampground});
+//     }
+//   });
+// });
+
+// //UPDATE CAMPGROUND ROUTE
+// router.put("/:id", middleware.checkCampgroundOwnership, function(req, res) {
+//   //find and update the correct campground
+//   Campground.findByIdAndUpdate(req.params.id, req.body.campground, function(err, updatedCampground) {
+//     if(err) {
+//       res.redirect("/campgrounds");
+//     }
+//     else {
+//       //redirect somewhere (show page)
+//       res.redirect("/campgrounds/" + req.params.id);
+//     }
+//   });
+// });
+
+// //DESTROY CAMPGROUND ROUTE
+// router.delete("/:id", middleware.checkCampgroundOwnership, function(req, res) {
+//   Campground.findByIdAndRemove(req.params.id, function(err) {
+//     if(err) {
+//       res.redirect("/campgrounds");
+//     }
+//     else {
+//       res.redirect("/campgrounds");
+//     }
+//   });
+// });
+
 
 module.exports = router;

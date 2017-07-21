@@ -1,30 +1,30 @@
 <% include ../partials/header %>
 
-<div class="container">
-	<div class="row">
-	    
-		<div style="width: 40%; margin: 30px auto">
-		    
-			<form action="/events" method="POST">
+	<form action="/events" method="POST">
 
-         		<h1 style="text-align:center">Create a New Event <input style="height: 1em" name="color" type="color"></h1>
+ 		<h1 style="text-align:center">Create a New Event</h1>
 
-				<div class="form-group">
-					<input class="form-control" type="text" name="name" placeholder="name">
-				</div>
-				<div class="form-group">
-					<input class="form-control" type="text" name="description" placeholder="description">
-				</div>
-					
-				<div class="form-group">
-					<button class="btn btn-primary btn-block btn-lg">Submit</button>
-				</div>
-			</form>
-			<a href="/campgrounds">Go back</a>			
+		<div class="form-group">
+            <div class="input-centered"> 
+				<input class="form-control" type="text" name="name" placeholder="name">
+			</div>
 		</div>
-	</div>
-
-</div>
+		<div class="form-group">
+            <div class="input-centered"> 
+				<input class="form-control" type="text" name="description" placeholder="description">
+			</div>
+		</div>
+		<div class="form-group">
+            <div class="input-centered"> 
+				<input class="form-control" name="color" type="color">
+            </div>
+		</div>
+			
+		<div class="form-group">
+			<button class="btn btn-primary">Submit</button>
+		</div>
+	</form>
+	<a href="/events">Go back</a>			
 
 
 

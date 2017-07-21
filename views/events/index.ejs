@@ -1,40 +1,27 @@
 <% include ../partials/header %>
 
-<div class="container">
-  <div class="row">
-    <div class="col-md-2"></div>
-    <div class="col-md-8">
-      <div class="row text-center">
-        <div class="header">
-          <h1>My Events</h1>
-          <p>
-            <a href="/events/new" class="btn btn-primary">Add New Event</a>      	
-          </p>
-        </div>
-        <hr>
-  	    <div class="row text-center">
-      		<% events.forEach(function(event) { %>
-      			<div class="col-lg-3 col-md-4 col-sm-6">
-      			  <div style=" margin:0 5px">
-        			  <div class="panel panel-default" style="border: 2px solid <%= event.color %>">
-                  <div class="panel-body">
-                    <h4><a href="/events/<%= event._id %>"><%= event.name %></a></h4>
-                    <a href="#"><span class="glyphicon glyphicon-edit"></span></a>
-                    <a href="#"><span class="glyphicon glyphicon-trash"></span></a>
-                  </div>
-        			  </div>
-      			  </div>
-      			</div>
-      		<% }); %>		
-      	</div>
-        
-      </div>
 
-	      
-    <div class="col-md-2"></div>
-    </div>
-   </div>
-</div><!-- /.container -->
+  <h1>My Events</h1>
+  <p>
+    <a href="/events/new" class="btn btn-primary">Add New Event</a>      	
+  </p>
+  <hr>
+
+	<% events.forEach(function(event) { %>
+		<div class="col-lg-3 col-md-4 col-sm-6">
+		  <div style=" margin:0 5px">
+			  <div class="panel panel-default" style="border: 2px solid <%= event.color %>">
+          <div class="panel-body">
+            <h4><a href="/events/<%= event._id %>"><%= event.name %></a></h4>
+            <!--<a href="#"><span class="glyphicon glyphicon-eye-open"></span></a>-->
+            <!--<a href="#"><span class="glyphicon glyphicon-edit"></span></a>-->
+            <!--<a href="#"><span class="glyphicon glyphicon-trash"></span></a>-->
+          </div>
+			  </div>
+		  </div>
+		</div>
+	<% }); %>		
+
 
 
 <% include ../partials/footer %>
