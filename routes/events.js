@@ -8,7 +8,9 @@ var Event = require("../models/event");
 
 //if we just require a directory, the framework automatically imports
 //the contents of the index.js file
-var middleware = require("../middleware/auth.js");
+var authMiddleware = require("../middleware/auth.js"),
+    eventsMiddleware = require("../middleware/events.js");
+
 
 //when a get request comes in for "/secret", it first runs isLoggedIn
 //before it does anything else
@@ -16,8 +18,8 @@ var middleware = require("../middleware/auth.js");
 //which refers to our lambda function here rendering the secret page
 
 //INDEX
-router.get("/", middleware.isLoggedIn, function(req, res) {
-	Event.find({"author.id": req.user}, function(err, allEvents) {
+router.get("/", authMiddleware.isLoggedIn, function(req, res) {
+	Event.find({"author.id": req.user._id}, function(err, allEvents) {
 	  if(err) {
 	    console.log(err);
 	    res.redirect("/");
@@ -30,7 +32,7 @@ router.get("/", middleware.isLoggedIn, function(req, res) {
 });
 
 //CREATE - persist new event
-router.post("/", middleware.isLoggedIn, function(req, res) {
+router.post("/", authMiddleware.isLoggedIn, function(req, res) {
    var name = req.body.name;
    var desc = req.body.description;
    var color = req.body.color; 
@@ -57,13 +59,13 @@ router.post("/", middleware.isLoggedIn, function(req, res) {
 });
 
 //NEW - show form to create new event
-router.get("/new", middleware.isLoggedIn, function(req, res) {
+router.get("/new", authMiddleware.isLoggedIn, function(req, res) {
   res.render("events/new");	
 });
 
 
 //SHOW - show details of one event
-router.get("/:id", middleware.isLoggedIn, function(req, res) {
+router.get("/:id", authMiddleware.isLoggedIn, eventsMiddleware.checkEventOwnership, function(req, res) {
   //find the campground with provided ID
   Event.findById(req.params.id, function(err, foundEvent) {
     if(err) {
@@ -79,7 +81,7 @@ router.get("/:id", middleware.isLoggedIn, function(req, res) {
 
 
 //EDIT EVENT ROUTE - form
-router.get("/:id/edit", middleware.isLoggedIn, function(req, res) {
+router.get("/:id/edit", authMiddleware.isLoggedIn, eventsMiddleware.checkEventOwnership, function(req, res) {
   Event.findById(req.params.id, function(err, foundEvent) {
     if(err) {
       console.log(err);
@@ -92,7 +94,7 @@ router.get("/:id/edit", middleware.isLoggedIn, function(req, res) {
 });
 
 //UPDATE EVENT ROUTE
-router.put("/:id", middleware.isLoggedIn, function(req, res) {
+router.put("/:id", authMiddleware.isLoggedIn, eventsMiddleware.checkEventOwnership, function(req, res) {
   //find and update the correct event
   Event.findByIdAndUpdate(req.params.id, req.body.event, function(err, updatedEvent) {
     if(err) {
@@ -106,7 +108,7 @@ router.put("/:id", middleware.isLoggedIn, function(req, res) {
 });
 
 //DESTROY EVENT ROUTE
-router.delete("/:id", middleware.isLoggedIn, function(req, res) {
+router.delete("/:id", authMiddleware.isLoggedIn, eventsMiddleware.checkEventOwnership, function(req, res) {
   Event.findByIdAndRemove(req.params.id, function(err) {
     if(err) {
       res.redirect("/events");
