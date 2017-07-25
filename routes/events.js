@@ -17,7 +17,7 @@ var middleware = require("../middleware/auth.js");
 
 //INDEX
 router.get("/", middleware.isLoggedIn, function(req, res) {
-	Event.find({}, function(err, allEvents) {
+	Event.find({"author.id": req.user}, function(err, allEvents) {
 	  if(err) {
 	    console.log(err);
 	    res.redirect("/");
@@ -63,7 +63,7 @@ router.get("/new", middleware.isLoggedIn, function(req, res) {
 
 
 //SHOW - show details of one event
-router.get("/:id", function(req, res) {
+router.get("/:id", middleware.isLoggedIn, function(req, res) {
   //find the campground with provided ID
   Event.findById(req.params.id, function(err, foundEvent) {
     if(err) {
@@ -79,7 +79,7 @@ router.get("/:id", function(req, res) {
 
 
 //EDIT EVENT ROUTE - form
-router.get("/:id/edit", function(req, res) {
+router.get("/:id/edit", middleware.isLoggedIn, function(req, res) {
   Event.findById(req.params.id, function(err, foundEvent) {
     if(err) {
       console.log(err);
@@ -92,7 +92,7 @@ router.get("/:id/edit", function(req, res) {
 });
 
 //UPDATE EVENT ROUTE
-router.put("/:id", function(req, res) {
+router.put("/:id", middleware.isLoggedIn, function(req, res) {
   //find and update the correct event
   Event.findByIdAndUpdate(req.params.id, req.body.event, function(err, updatedEvent) {
     if(err) {
@@ -106,7 +106,7 @@ router.put("/:id", function(req, res) {
 });
 
 //DESTROY EVENT ROUTE
-router.delete("/:id", function(req, res) {
+router.delete("/:id", middleware.isLoggedIn, function(req, res) {
   Event.findByIdAndRemove(req.params.id, function(err) {
     if(err) {
       res.redirect("/events");
