@@ -13,7 +13,8 @@ var User = require("./models/user"),
 
 //requiring routes
 var authRoutes = require("./routes/auth.js"),
-    eventRoutes = require("./routes/events.js")
+    eventRoutes = require("./routes/events.js"),
+    timeRoutes = require("./routes/logged_time.js");
 //if we just require a directory, the framework automatically imports
 //the contents of the index.js file
 var middleware = require("./middleware/auth.js");
@@ -78,7 +79,7 @@ app.get("/", function(req, res) {
 
 app.use("/", authRoutes);
 app.use("/events", eventRoutes);
-
+app.use("/events/:id/time", timeRoutes);
 
 
 

@@ -13,7 +13,8 @@
 
     </div> <!-- jumbotron -->
 	<div class="well">
-	
+	  <%= event._id %>
+      <a class="btn btn-default" href="/events/<%= event._id %>/time/new">Log Time</a>
 	</div> <!-- well -->
 
 <% include ../partials/footer %>

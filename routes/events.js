@@ -3,9 +3,9 @@ var ObjectId = require('mongoose').Schema.ObjectId;
 
 var router = express.Router();
 
-
-var Event = require("../models/event");
-
+var Event = require("../models/event"),
+    LoggedTime = require("../models/logged_time");
+    
 //if we just require a directory, the framework automatically imports
 //the contents of the index.js file
 var authMiddleware = require("../middleware/auth.js"),

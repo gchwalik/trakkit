@@ -1,7 +1,10 @@
 var mongoose = require("mongoose");
 
 var loggedTimeSchema = new mongoose.Schema({
-  text: String,
+  forEvent: String,
+  start: Date,
+  end: Date,
+  total_time: Number,
   //storing the username directly in the comment, so we save lookup time 
   //when displaying comment list; only possible with nosql
   owner: {
@@ -13,4 +16,4 @@ var loggedTimeSchema = new mongoose.Schema({
   }
 });
 
-module.exports = mongoose.model("Comment", loggedTimeSchema);
+module.exports = mongoose.model("LoggedTime", loggedTimeSchema);

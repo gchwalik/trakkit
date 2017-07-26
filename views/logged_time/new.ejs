@@ -1,0 +1,20 @@
+<% include ../partials/header %>
+
+
+    <h1>Log Time</h1> 
+    
+    <h3>for "<%= event.name %>"</h3>
+    <br>
+    
+	<form action="/events/<%= event._id %>/time" method="POST">
+		<div class="form-group row">
+		    <div class="input-centered">
+    			<input class="form-control" type="text" placeholder="text">		        
+		    </div>
+		</div>
+		<button class="btn btn-primary ">Submit!</button>
+	</form>
+	<br>
+	<a href="/campgrounds">Go back</a>			
+
+<% include ../partials/footer %>
