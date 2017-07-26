@@ -18,7 +18,7 @@ var authRoutes = require("./routes/auth.js"),
 //the contents of the index.js file
 var middleware = require("./middleware/auth.js");
 
-mongoose.connect("mongodb://localhost/time_tracking_app");
+mongoose.connect("mongodb://localhost/trakkit");
 
 var app = express();
 app.set('view engine', 'ejs');

@@ -4,7 +4,7 @@ var eventSchema = new mongoose.Schema({
   name: String,
   description: String,
   color: String,
-  author: {
+  owner: {
     id: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User"

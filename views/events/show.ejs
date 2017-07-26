@@ -5,12 +5,11 @@
         <h2><strong><%= event.name %></strong></h2>
         <p><%= event.description %></p>
 
-    	<% if(currentUser && event.author.id.equals(currentUser._id)) { %>
-			<a class="btn btn-default" href="/events/<%= event._id %>/edit">Edit</a>
-			<form id="deleteForm" action="/events/<%= event._id %>?_method=DELETE" method="POST">
-	    		<button class="btn btn-default">Delete</button>
-			</form>
-		<% } %>
+
+		<a class="btn btn-default" href="/events/<%= event._id %>/edit">Edit</a>
+		<form id="deleteForm" action="/events/<%= event._id %>?_method=DELETE" method="POST" onsubmit="return confirm('Are you sure you want to delete this event? This will also delete all of its logged time and cannot be undone.');">
+    		<button class="btn btn-default">Delete</button>
+		</form>
 
     </div> <!-- jumbotron -->
 	<div class="well">

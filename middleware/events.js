@@ -12,11 +12,11 @@ middlewareObj.checkEventOwnership = function(req, res, next) {
         res.redirect("back");
       }
       else {
-        //does user own the campground
-        //foundCampground.author.id is a js/mongoose object
+        //does user own the event
+        //foundEvent.owner.id is a js/mongoose object
         //req.user._id is a String
         //can't compate these with ===, and instead use equals()
-        if(foundEvent.author.id.equals(req.user._id)) {
+        if(foundEvent.owner.id.equals(req.user._id)) {
           next();
         }
         else {

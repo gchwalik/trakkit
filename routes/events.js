@@ -19,7 +19,7 @@ var authMiddleware = require("../middleware/auth.js"),
 
 //INDEX
 router.get("/", authMiddleware.isLoggedIn, function(req, res) {
-	Event.find({"author.id": req.user._id}, function(err, allEvents) {
+	Event.find({"owner.id": req.user._id}, function(err, allEvents) {
 	  if(err) {
 	    console.log(err);
 	    res.redirect("/");
@@ -37,12 +37,12 @@ router.post("/", authMiddleware.isLoggedIn, function(req, res) {
    var desc = req.body.description;
    var color = req.body.color; 
    
-   var author = {
+   var owner = {
      id: req.user._id,
      username: req.user.username
    };
 
-  var newEvent = {name: name, description:desc, color: color, author: author};
+  var newEvent = {name: name, description:desc, color: color, owner: owner};
   //Create new campground and save to DB
   Event.create(newEvent, function(err, newlyCreated) {
     if(err) {
