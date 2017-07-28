@@ -1,7 +1,7 @@
 var mongoose = require("mongoose");
+var Schema = mongoose.Schema;
 
-var loggedTimeSchema = new mongoose.Schema({
-  forEvent: String,
+var loggedTimeSchema = new Schema({
   start: Date,
   end: Date,
   total_time: Number,
@@ -9,10 +9,13 @@ var loggedTimeSchema = new mongoose.Schema({
   //when displaying comment list; only possible with nosql
   owner: {
     id: {
-      type: mongoose.Schema.Types.ObjectId,
+      type: Schema.Types.ObjectId,
       ref: "User"
     },
     username: String
+  },
+  forEvent : {
+    id: {type: Schema.Types.ObjectId, ref: "Event"}
   }
 });
 

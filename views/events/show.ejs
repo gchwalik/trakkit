@@ -5,7 +5,6 @@
         <h2><strong><%= event.name %></strong></h2>
         <p><%= event.description %></p>
 
-
 		<a class="btn btn-default" href="/events/<%= event._id %>/edit">Edit</a>
 		<form id="deleteForm" action="/events/<%= event._id %>?_method=DELETE" method="POST" onsubmit="return confirm('Are you sure you want to delete this event? This will also delete all of its logged time and cannot be undone.');">
     		<button class="btn btn-default">Delete</button>
@@ -13,8 +12,32 @@
 
     </div> <!-- jumbotron -->
 	<div class="well">
-	  <%= event._id %>
-      <a class="btn btn-default" href="/events/<%= event._id %>/time/new">Log Time</a>
+        <a class="btn btn-default" href="/events/<%= event._id %>/time/new">Log Time</a>
+    
+        <% event.logged_times.forEach(function(time) { %>
+        	<div class="row">
+        		<div class="col-md-12">
+        			<strong><%= time.owner.username %></strong>
+        			<span class="pull-right">10 days ago</span>
+        			<p>
+        				Start: <%= time.start %> 
+        			</p>
+        			<p>
+        			    End: <%= time.end %>
+        			</p>
+        			<% if(currentUser && time.owner.id.equals(currentUser._id)) { %>
+        				<a class="btn btn-xs btn-warning" 
+        				   href="/events/<%= event._id %>/time/<%= time._id %>/edit">
+        					 Edit
+        				</a>
+        				<form id="deleteForm" action="/events/<%= event._id %>/time/<%= time._id %>?_method=DELETE" method="POST">
+        				  <input type="submit" class="btn btn-xs btn-danger" value="Delete">
+        				</form>
+        			<% } %>
+        		</div> <!-- col-md-right -->
+        	</div>
+        <% }); %>
+
 	</div> <!-- well -->
 
 <% include ../partials/footer %>

@@ -67,7 +67,7 @@ router.get("/new", authMiddleware.isLoggedIn, function(req, res) {
 //SHOW - show details of one event
 router.get("/:id", authMiddleware.isLoggedIn, eventsMiddleware.checkEventOwnership, function(req, res) {
   //find the campground with provided ID
-  Event.findById(req.params.id, function(err, foundEvent) {
+  Event.findById(req.params.id).populate("logged_times").exec(function(err, foundEvent) {
     if(err) {
       console.log(err);
       res.redirect("/events");

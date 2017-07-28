@@ -1,13 +1,16 @@
 var mongoose = require("mongoose");
+var Schema = mongoose.Schema;
 
-var eventSchema = new mongoose.Schema({
+var eventSchema = new Schema({
   name: String,
   description: String,
   color: String,
+  logged_times: [
+      {type: Schema.Types.ObjectId, ref: 'LoggedTime'}
+    ],
   owner: {
     id: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "User"
+      type: Schema.Types.ObjectId, ref: "User"
     },
     username: String
   }

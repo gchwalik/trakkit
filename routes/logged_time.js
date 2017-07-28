@@ -26,7 +26,43 @@ router.get("/new", authMiddleware.isLoggedIn, eventsMiddleware.checkEventOwnersh
 });
 
 //CREATE - persist the logged time
+//CREATE comment
+router.post("/", authMiddleware.isLoggedIn, function(req, res) {
+  //lookup campground using id
+  Event.findById(req.params.id, function(err, foundEvent) {
+    if(err) {
+      console.log(err);
+      res.redirect("/events");
+    }
+    else {
 
+      //create new comment
+      LoggedTime.create(req.body.time, function(err, time) {
+        if(err) {
+          console.log("Something went wrong");
+          res.redirect("/events/" + foundEvent._id)
+        }
+        else {
+          //add Event to logged_time
+          time.forEvent.id = foundEvent._id;
+          
+          //add username and id to comment
+          time.owner.id = req.user._id;
+          time.owner.username = req.user.username;
+          time.save();
+          
+          //connect new comment to campground
+          foundEvent.logged_times.push(time);
+          foundEvent.save();
+
+          console.log("Successfully added comment");
+          //redirect to campground show page
+          res.redirect('/events/' + foundEvent._id);
+        } //else
+      }); //Comment.create()
+    } //else
+  }); //Campground.findById()
+});
 
 //EDIT - form to edit already logged time
 
