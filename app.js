@@ -42,7 +42,6 @@ app.use(require("express-session") ({
 app.use(passport.initialize());
 app.use(passport.session());
 
-
 passport.use(new LocalStrategy(User.authenticate()));
 //responsible for reading the session, taking encoded data from the session
 //and decoding it (deserialize), and then encoding it (serialize) and 

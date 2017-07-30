@@ -1,0 +1,27 @@
+<% include ../partials/header %>
+
+    <h1>Edit Logged Time</h1> 
+    
+    <h3>for "<%= event.name %>"</h3>
+    <br>
+    
+	<form action="/events/<%= event._id %>/time" method="POST">
+		<div class="form-group row text-left">
+		    <div class="input-centered">
+		    	<label>Start Date and Time</label>
+    			<input class="form-control" type="datetime-local" name="time[start]" value="<%= time.formTime(time.start) %>">
+		    </div>
+		</div>
+		<div class="form-group row text-left">
+		    <div class="input-centered">
+		    	<label>End Date and Time</label>
+    			<input class="form-control" type="datetime-local" name="time[end]" value="<%= time.formTime(time.end) %>">
+		    </div>
+		</div>
+		<button class="btn btn-primary ">Submit!</button>
+	</form>
+	<br>
+	<a href="/events/<%= event._id %>">Go back</a>			
+	
+
+<% include ../partials/footer %>

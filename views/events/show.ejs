@@ -17,14 +17,7 @@
         <% event.logged_times.forEach(function(time) { %>
         	<div class="row">
         		<div class="col-md-12">
-        			<strong><%= time.owner.username %></strong>
-        			<span class="pull-right">10 days ago</span>
-        			<p>
-        				Start: <%= time.start %> 
-        			</p>
-        			<p>
-        			    End: <%= time.end %>
-        			</p>
+        			<%= time.displayTime(time.start) %> - <%= time.displayTime(time.end) %>
         			<% if(currentUser && time.owner.id.equals(currentUser._id)) { %>
         				<a class="btn btn-xs btn-warning" 
         				   href="/events/<%= event._id %>/time/<%= time._id %>/edit">
