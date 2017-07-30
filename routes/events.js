@@ -109,14 +109,33 @@ router.put("/:id", authMiddleware.isLoggedIn, eventsMiddleware.checkEventOwnersh
 
 //DESTROY EVENT ROUTE
 router.delete("/:id", authMiddleware.isLoggedIn, eventsMiddleware.checkEventOwnership, function(req, res) {
-  Event.findByIdAndRemove(req.params.id, function(err) {
+  Event.findById(req.params.id).populate("logged_times").exec(function(err, foundEvent) {
     if(err) {
-      res.redirect("/events");
+      res.redirect("back");
     }
     else {
-      res.redirect("/events");
-    }
+      var times = foundEvent.logged_times;
+      console.log(times);
+      for(var i=0; i<times.length; i++) {
+        console.log(times[i]._id);
+        LoggedTime.findByIdAndRemove(times[i]._id, function(err) {
+          if(err) {
+            res.redirect("back");
+          }
+        });
+      } //for
+
+      Event.remove({ "_id": req.params.id}, function(err) {
+        if(err) {
+          res.redirect("/events");
+        }
+        else {
+          res.redirect("/events");
+        }
+      }); //Event.remove()
+    } //else
   });
+
 });
 
 
