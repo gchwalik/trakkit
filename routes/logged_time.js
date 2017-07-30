@@ -126,6 +126,15 @@ router.put("/:time_id", authMiddleware.isLoggedIn, eventsMiddleware.checkEventOw
 });
 
 //DESTROY - delete the logged time instance
-
+router.delete("/:time_id", function(req, res) {
+  LoggedTime.findByIdAndRemove(req.params.time_id, function(err) {
+    if(err) {
+      res.redirect("back");
+    }
+    else {
+      res.redirect("/events/" + req.params.id);
+    }
+  });
+});
 
 module.exports = router;

@@ -124,7 +124,6 @@ router.delete("/:id", authMiddleware.isLoggedIn, eventsMiddleware.checkEventOwne
           }
         });
       } //for
-
       Event.remove({ "_id": req.params.id}, function(err) {
         if(err) {
           res.redirect("/events");
@@ -135,8 +134,6 @@ router.delete("/:id", authMiddleware.isLoggedIn, eventsMiddleware.checkEventOwne
       }); //Event.remove()
     } //else
   });
-
 });
-
 
 module.exports = router;
