@@ -120,6 +120,19 @@ router.put("/:time_id", authMiddleware.isLoggedIn, eventsMiddleware.checkEventOw
           res.redirect("/events/" + foundEvent._id)
         }
         else {
+          //persist pieces of time
+          var startYear = foundTime.start.getYear() + 1900; //else 0 = 1900, and 100 = 2000
+          var startMonth = foundTime.start.getMonth()+1; //cause indexes month from 0
+          var startDate = foundTime.start.getDate();
+          var startHour = foundTime.start.getHours();
+          var startMinute = foundTime.start.getMinutes();
+          
+          var endYear = foundTime.end.getYear() + 1900;
+          var endMonth = foundTime.end.getMonth()+1;
+          var endDate = foundTime.end.getDate();
+          var endHour = foundTime.end.getHours();
+          var endMinute = foundTime.end.getMinutes();
+          
           //persist total time logged          
           var start = moment(foundTime.start);
           var end = moment(foundTime.end);
