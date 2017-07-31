@@ -9,7 +9,8 @@ var Event = require("../models/event"),
 //if we just require a directory, the framework automatically imports
 //the contents of the index.js file
 var authMiddleware = require("../middleware/auth.js"),
-    eventsMiddleware = require("../middleware/events.js");
+    eventsMiddleware = require("../middleware/events.js"),
+    timeMiddleware = require("../middleware/logged_time.js");
 
 
 //when a get request comes in for "/secret", it first runs isLoggedIn
@@ -73,6 +74,10 @@ router.get("/:id", authMiddleware.isLoggedIn, eventsMiddleware.checkEventOwnersh
       res.redirect("/events");
     }
     else {
+      //sort logged_time
+      console.log(foundEvent.logged_times);
+      foundEvent.logged_times.sort(timeMiddleware.sortDates);
+      
       //render show template with campground
       res.render("./events/show", {event: foundEvent});
     }

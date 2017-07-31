@@ -5,7 +5,7 @@
     <h3>for "<%= event.name %>"</h3>
     <br>
     
-	<form action="/events/<%= event._id %>/time" method="POST">
+	<form action="/events/<%= event._id %>/time/<%= time._id %>?_method=PUT" method="POST">
 		<div class="form-group row text-left">
 		    <div class="input-centered">
 		    	<label>Start Date and Time</label>
