@@ -41,11 +41,24 @@ router.post("/", authMiddleware.isLoggedIn, eventsMiddleware.checkEventOwnership
       LoggedTime.create(req.body.time, function(err, time) {
         if(err) {
           console.log("Something went wrong");
-          res.redirect("/events/" + foundEvent._id)
+          res.redirect("/events/" + foundEvent._id);
         }
         else {
           //add Event to logged_time
           time.forEvent.id = foundEvent._id;
+
+          //persist pieces of time
+          time.startYear = time.start.getYear() + 1900; //else 0 = 1900, and 100 = 2000
+          time.startMonth = time.start.getMonth()+1; //cause indexes month from 0
+          time.startDate = time.start.getDate();
+          time.startHour = time.start.getHours();
+          time.startMinute = time.start.getMinutes();
+          
+          time.endYear = time.end.getYear() + 1900;
+          time.endMonth = time.end.getMonth()+1;
+          time.endDate = time.end.getDate();
+          time.endHour = time.end.getHours();
+          time.endMinute = time.end.getMinutes();
 
           //persist total time logged          
           var start = moment(time.start);

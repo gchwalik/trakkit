@@ -5,6 +5,19 @@ var Schema = mongoose.Schema;
 var loggedTimeSchema = new Schema({
   start: Date,
   end: Date,
+  
+  startYear: Number,
+  startMonth: Number,
+  startDate: Number,
+  startHour: Number,
+  startMinute: Number,
+  
+  endYear: Number,
+  endMonth: Number,
+  endDate: Number,
+  endHour: Number,
+  endMinute: Number,
+  
   hours: Number,
   minutes: Number,
   //storing the username directly in the comment, so we save lookup time 
