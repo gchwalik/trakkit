@@ -60,7 +60,6 @@ loggedTimeSchema.methods.displayHourAndMinute = function(timeA, timeB) {
   }
 
   return return_string;
-  
 }
 
 
@@ -70,6 +69,7 @@ loggedTimeSchema.methods.displayHourDuration = function(timeA, timeB) {
 
   return formatted_timeB.diff(formatted_timeA, "hours");
 }
+
 
 loggedTimeSchema.methods.displayMinuteDuration = function(timeA, timeB) {
   var formatted_timeA = moment(timeA),
