@@ -44,11 +44,23 @@ loggedTimeSchema.methods.displayMonthAndDay = function(time_to_format) {
 loggedTimeSchema.methods.displayHourAndMinute = function(timeA, timeB) {
   var formatted_timeA = moment(timeA),
       formatted_timeB = moment(timeB);
+
+  var return_string = "";
+  var total_days = 0;
+
+  total_days = formatted_timeB.diff(formatted_timeA, "days");
       
   formatted_timeA = formatted_timeA.format("h:mmA");
   formatted_timeB = formatted_timeB.format("h:mmA");
   
-  return formatted_timeA + " - " + formatted_timeB;
+  return_string = formatted_timeA + " - " + formatted_timeB;
+
+  if(total_days != 0) {
+    return_string += "(+" + total_days + ")";
+  }
+
+  return return_string;
+  
 }
 
 

@@ -5,11 +5,11 @@ hr {
 .date {
 	font-weight: bold;
 	font-size: 1.2em;
-	min-width: 50px;	
+	min-width: 60px;	
 }
 
 .time {
-	min-width: 120px;
+	min-width: 135px;
 }
 
 .extra-margin {
@@ -17,7 +17,7 @@ hr {
 }
 
 .duration {
-	min-width: 85px;
+	min-width: 80px;
 }
 
 
