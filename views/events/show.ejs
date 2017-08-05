@@ -14,22 +14,37 @@
 	<div class="well">
         <a class="btn btn-default" href="/events/<%= event._id %>/time/new">Log Time</a>
     
-        <% event.logged_times.forEach(function(time) { %>
-        	<div class="row">
-        		<div class="col-md-12">
-        			<%= time.displayTime(time.start) %> - <%= time.displayTime(time.end) %>
-        			<% if(currentUser && time.owner.id.equals(currentUser._id)) { %>
-        				<a class="btn btn-xs btn-warning" 
-        				   href="/events/<%= event._id %>/time/<%= time._id %>/edit">
-        					 Edit
-        				</a>
-        				<form id="deleteForm" action="/events/<%= event._id %>/time/<%= time._id %>?_method=DELETE" method="POST">
-        				  <input type="submit" class="btn btn-xs btn-danger" value="Delete">
-        				</form>
-        			<% } %>
-        		</div> <!-- col-md-right -->
-        	</div>
-        <% }); %>
+        <div class="text-left time_row">
+            <% var currYear = 0 %>
+            <% event.logged_times.forEach(function(time) { %>
+                <% if(time.startYear != currYear) { %>
+                    <% currYear = time.startYear %>
+                    <h2><%= currYear %></h2>
+                <% } %>
+                
+                <div>
+                    <%= time.displayMonthAndDay(time.start) %>
+    
+                    <%= time.timeDisplay(time.start, time.end) %>
+                    
+                    <div>
+                        <% if(currentUser && time.owner.id.equals(currentUser._id)) { %>
+            				<a class="btn btn-xs btn-warning" 
+            				   href="/events/<%= event._id %>/time/<%= time._id %>/edit">
+            					 Edit
+            				</a>
+            				<form id="deleteForm" action="/events/<%= event._id %>/time/<%= time._id %>?_method=DELETE" method="POST">
+            				  <input type="submit" class="btn btn-xs btn-danger" value="Delete">
+            				</form>
+            			<% } %>                                                
+                    </div>
+
+                </div>
+
+
+            <% }); %> <!-- forEach -->
+            
+        </div>
 
 	</div> <!-- well -->
 

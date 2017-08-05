@@ -35,10 +35,20 @@ var loggedTimeSchema = new Schema({
 });
 
 
-loggedTimeSchema.methods.displayTime = function(time_to_format) {
+loggedTimeSchema.methods.displayMonthAndDay = function(time_to_format) {
   var formatted_time = moment(time_to_format);
-  return formatted_time.format("MMM D, YYYY");
+  return formatted_time.format("MMM D");
 };
+
+loggedTimeSchema.methods.timeDisplay = function(timeA, timeB) {
+  var formatted_timeA = moment(timeA),
+      formatted_timeB = moment(timeB);
+      
+  formatted_timeA = formatted_timeA.format("hh:mmA");
+  formatted_timeB = formatted_timeB.format("hh:mmA");
+  
+  return formatted_timeA + " - " + formatted_timeB;
+}
 
 loggedTimeSchema.methods.formTime = function(time_to_format) {
   var formatted_time = moment(time_to_format);

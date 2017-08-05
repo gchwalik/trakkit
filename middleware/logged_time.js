@@ -127,9 +127,9 @@ middlewareObj.sortDates = function(logged_timeA, logged_timeB) {
                 (logged_timeA.endHour === logged_timeB.endHour) &&
                 (logged_timeA.endMinute < logged_timeB.endMinute)) 
         )
-    ) { return -1; }
+    ) { return 1; }
     
-    else { return 1; }
+    else { return -1; }
 
 };
 
