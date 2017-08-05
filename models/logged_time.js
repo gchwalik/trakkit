@@ -40,17 +40,34 @@ loggedTimeSchema.methods.displayMonthAndDay = function(time_to_format) {
   return formatted_time.format("MMM D");
 };
 
-loggedTimeSchema.methods.timeDisplay = function(timeA, timeB) {
+
+loggedTimeSchema.methods.displayHourAndMinute = function(timeA, timeB) {
   var formatted_timeA = moment(timeA),
       formatted_timeB = moment(timeB);
       
-  formatted_timeA = formatted_timeA.format("hh:mmA");
-  formatted_timeB = formatted_timeB.format("hh:mmA");
+  formatted_timeA = formatted_timeA.format("h:mmA");
+  formatted_timeB = formatted_timeB.format("h:mmA");
   
   return formatted_timeA + " - " + formatted_timeB;
 }
 
-loggedTimeSchema.methods.formTime = function(time_to_format) {
+
+loggedTimeSchema.methods.displayHourDuration = function(timeA, timeB) {
+  var formatted_timeA = moment(timeA),
+      formatted_timeB = moment(timeB);
+
+  return formatted_timeB.diff(formatted_timeA, "hours");
+}
+
+loggedTimeSchema.methods.displayMinuteDuration = function(timeA, timeB) {
+  var formatted_timeA = moment(timeA),
+      formatted_timeB = moment(timeB);
+
+  return (formatted_timeB.diff(formatted_timeA, "minutes") % 60);
+}
+
+
+loggedTimeSchema.methods.formatTimeForForm = function(time_to_format) {
   var formatted_time = moment(time_to_format);
   return formatted_time.format("YYYY-MM-DDTHH:mm");
 }

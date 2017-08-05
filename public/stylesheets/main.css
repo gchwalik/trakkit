@@ -1,6 +1,29 @@
+hr {
+	margin: 20px 0;
+}
+
 .date {
-	font-weight: strong;
+	font-weight: bold;
 	font-size: 1.2em;
+	min-width: 50px;	
+}
+
+.time {
+	min-width: 120px;
+}
+
+.extra-margin {
+	margin-left: 20px;
+}
+
+.duration {
+	min-width: 85px;
+}
+
+
+.block {
+	display: inline-block;
+	margin: 0 5px;
 }
 
 .flex {
@@ -22,8 +45,14 @@
 	margin: 0 auto;	
 }
 
-.time_row {
-	padding: 20px;
+.parent_row {
+	padding: 5px;  
+	max-width: 500px;
+	margin: 0 auto;
+}
+
+.child_row {
+	padding: 5px 0 5px 30px;
 }
 
 
@@ -36,6 +65,12 @@
 		width: 95%; 
 		margin: 30px auto;	
 	}
+
+	
+	.child_row {
+		padding: 10px 15px;
+	}
+
 }
 
 @media (min-width: 769px) and (max-width: 991px) {
@@ -43,6 +78,11 @@
 		width: 85%; 
 		margin: 30px auto;	
 	}
+	
+	.child_row {
+		padding: 5px 0 5px 30px;
+	}
+
 }
 
 @media (min-width: 992px) {
@@ -50,4 +90,9 @@
 		width: 70%; 
 		margin: 30px auto;	
 	}
+
+	.child_row {
+		padding: 5px 0 5px 30px;
+	}
+
 }

@@ -14,38 +14,60 @@
 	<div class="well">
         <a class="btn btn-default" href="/events/<%= event._id %>/time/new">Log Time</a>
     
-        <div class="text-left time_row">
+        <div class="text-left parent_row">
             <% var currYear = 0 %>
-            <% event.logged_times.forEach(function(time) { %>
+            <% for(var i=0; i<event.logged_times.length; i++ ) { %>
+                <% var time = event.logged_times[i] %>
+
                 <% if(time.startYear != currYear) { %>
+                    <% if(i != 0) { %>
+                        </table>
+                    <% }; %>
+
                     <% currYear = time.startYear %>
-                    <h2><%= currYear %></h2>
+                    <h2><%= time.startYear %></h2>
+                    <table>
                 <% } %>
-                
-                <div>
-                    <%= time.displayMonthAndDay(time.start) %>
-    
-                    <%= time.timeDisplay(time.start, time.end) %>
-                    
-                    <div>
-                        <% if(currentUser && time.owner.id.equals(currentUser._id)) { %>
-            				<a class="btn btn-xs btn-warning" 
-            				   href="/events/<%= event._id %>/time/<%= time._id %>/edit">
-            					 Edit
-            				</a>
-            				<form id="deleteForm" action="/events/<%= event._id %>/time/<%= time._id %>?_method=DELETE" method="POST">
-            				  <input type="submit" class="btn btn-xs btn-danger" value="Delete">
-            				</form>
-            			<% } %>                                                
-                    </div>
+
+                <div class="child_row">
+                    <span class="date block"><%= time.displayMonthAndDay(time.start) %></span>
+                    <span class="time block"><%= time.displayHourAndMinute(time.start, time.end) %></span>
+                    <span class="extra-margin">
+                        <span class="duration block">
+                            <% var hourDuration = time.displayHourDuration(time.start, time.end) %>
+                            <% var minuteDuration = time.displayMinuteDuration(time.start, time.end) %>
+                            <% if(hourDuration != 0) { %>
+                                <%= hourDuration %> hr
+                            <% } %>
+                            <% if(minuteDuration != 0) { %>
+                                <%= minuteDuration %> min
+                            <% } %>
+                        </span>                        
+                    </span>
+
+                    <span class="extra-margin">
+                        <span class="block">
+                            <% if(currentUser && time.owner.id.equals(currentUser._id)) { %>
+                				<a class="btn btn-xs btn-warning" 
+                				   href="/events/<%= event._id %>/time/<%= time._id %>/edit">
+                					 Edit
+                				</a>
+                				<form id="deleteForm" action="/events/<%= event._id %>/time/<%= time._id %>?_method=DELETE" method="POST">
+                				  <input type="submit" class="btn btn-xs btn-danger" value="Delete">
+                				</form>
+                    		<% } %>                        
+                        </span>                        
+                    </span>
 
                 </div>
 
 
-            <% }); %> <!-- forEach -->
-            
-        </div>
+                
 
+            <% }; %> <!-- forEach -->
+
+        </div>
+            
 	</div> <!-- well -->
 
 <% include ../partials/footer %>
