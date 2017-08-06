@@ -23,7 +23,11 @@ router.get("/new", authMiddleware.isLoggedIn, eventsMiddleware.checkEventOwnersh
       console.log(err);
     }
     else {
-      res.render("logged_time/new", {event: foundEvent});
+      var date = moment(new Date());
+      date = date.subtract(7, 'hours')
+      date = date.format("YYYY-MM-DDTHH:mm");
+
+      res.render("logged_time/new", {event: foundEvent, date: date});
     }
   });
 });
@@ -81,9 +85,9 @@ router.post("/", authMiddleware.isLoggedIn, eventsMiddleware.checkEventOwnership
           //redirect to campground show page
           res.redirect('/events/' + foundEvent._id);
         } //else
-      }); //Comment.create()
+      }); //LoggedTime.create()
     } //else
-  }); //Campground.findById()
+  }); //Event.findById()
 });
 
 //EDIT - form to edit already logged time

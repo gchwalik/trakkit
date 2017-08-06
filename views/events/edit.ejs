@@ -6,17 +6,20 @@
 
 		<div class="form-group">
             <div class="input-centered"> 
-				<input class="form-control" type="text" name="event[name]" value="<%= event.name %>">
+	            <label for="name">Event Name</label>
+				<input class="form-control" id="name" type="text" name="event[name]" value="<%= event.name %>">
 			</div>
 		</div>
 		<div class="form-group">
             <div class="input-centered"> 
-				<input class="form-control" type="text" name="event[description]" value="<%= event.description %>">
+	            <label for="description">Event Description</label>
+				<input class="form-control" id="description" type="text" name="event[description]" value="<%= event.description %>">
 			</div>
 		</div>
 		<div class="form-group">
             <div class="input-centered"> 
-				<input class="form-control" type="color" name="event[color]" value="<%= event.color %>">
+	            <label for"color">Event Color</label>
+				<input class="form-control" id="color" type="color" name="event[color]" value="<%= event.color %>">
             </div>
 		</div>
 			
@@ -25,6 +28,6 @@
 		</div>
 	</form>
 
-	<a href="/events">Go back</a>			
+	<a href="/events/<%= event._id %>">Go back</a>			
 
 <% include ../partials/footer %>

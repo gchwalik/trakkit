@@ -42,12 +42,13 @@ hr {
 
 .input-centered {
 	max-width: 300px; 
-	margin: 0 auto;	
+	margin: 0 auto;
+	text-align: left;
 }
 
 .parent_row {
 	padding: 5px;  
-	max-width: 500px;
+	max-width: 550px;
 	margin: 0 auto;
 }
 

@@ -4,6 +4,8 @@ var passport = require("passport");
 
 var User = require("../models/user");
 
+var middleware = require("../middleware/auth");
+
 // Auth Routes
 // show sign up form
 router.get("/register", function(req, res) {
@@ -21,14 +23,14 @@ router.post("/register", function(req, res) {
 			console.log(err);
 			return res.render('register');
 		}
-			//this next bit happens once the user has been created and there is no error
-			//passport.authenticate() actually logs the user in, takes care of everything in 
-			// the session, store the correct information, runs the serializeUser method, 
-			// and specifically uses the "local" strategy as specified below
-			//Could optionally use "twitter" or "facebook", or any other strategy
-			passport.authenticate("local")(req, res, function() {
-				res.redirect("/events");
-			});
+		//this next bit happens once the user has been created and there is no error
+		//passport.authenticate() actually logs the user in, takes care of everything in 
+		// the session, stores the correct information, runs the serializeUser method, 
+		// and specifically uses the "local" strategy as specified below
+		//Could optionally use "twitter" or "facebook", or any other strategy
+		passport.authenticate("local")(req, res, function() {
+			res.redirect("/events");
+		});
 	});
 });
 
@@ -63,7 +65,7 @@ router.get("/logout", function(req, res) {
 });
 
 
-router.get("/user", function(req, res) {
+router.get("/user", middleware.isLoggedIn, function(req, res) {
   res.render("user");	
 });
 
