@@ -18,7 +18,7 @@ router.post("/register", function(req, res) {
 	//We don't want to pass the password in directly, because we don't want to store it in plaintext
 	//Somehow .register() takes in the password as a second argument, hashes it, and adds it 
 	//to the new User object, and then passes is back in the callback function arg "user"
-	User.register(new User({username: req.body.username}), req.body.password, function(err, user) {
+	User.register(new User({username: req.body.username, email: req.body.email}), req.body.password, function(err, user) {
 		if(err) {
 			console.log(err);
 			return res.render('register');

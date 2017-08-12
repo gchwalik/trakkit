@@ -9,7 +9,9 @@ hr {
 }
 
 .time {
-	min-width: 135px;
+	min-width: 150px;
+	padding-left: 40px;
+	
 }
 
 .extra-margin {
@@ -22,7 +24,7 @@ hr {
 
 
 .block {
-	display: inline-block;
+    max-width: 700px;
 	margin: 0 5px;
 }
 

@@ -30,9 +30,13 @@
                 <% } %>
 
                 <div class="child_row">
-                    <span class="date block"><%= time.displayMonthAndDay(time.start) %></span>
-                    <span class="time block"><%= time.displayHourAndMinute(time.start, time.end) %></span>
-                    <span class="extra-margin">
+                    <div>
+                        <span class="date block"><%= time.displayMonthAndDay(time.start) %></span>
+                    </div>
+                
+                    <div class="block">
+                        <span class="time block"><%= time.displayHourAndMinute(time.start, time.end) %></span>
+    
                         <span class="duration block">
                             <% var hourDuration = time.displayHourDuration(time.start, time.end) %>
                             <% var minuteDuration = time.displayMinuteDuration(time.start, time.end) %>
@@ -42,22 +46,20 @@
                             <% if(minuteDuration != 0) { %>
                                 <%= minuteDuration %> min
                             <% } %>
-                        </span>                        
-                    </span>
-
-                    <span class="extra-margin">
-                        <span class="block">
+                        </span>
+    
+                        <span class="pull-right">
                             <% if(currentUser && time.owner.id.equals(currentUser._id)) { %>
                 				<a class="btn btn-xs btn-warning" 
                 				   href="/events/<%= event._id %>/time/<%= time._id %>/edit">
                 					 Edit
                 				</a>
-                				<form id="deleteForm" action="/events/<%= event._id %>/time/<%= time._id %>?_method=DELETE" method="POST">
+                				<form id="deleteForm" action="/events/<%= event._id %>/time/<%= time._id %>?_method=DELETE" method="POST" onsubmit="return confirm('Are you sure you want to delete this logged time? This cannot be undone.');">
                 				  <input type="submit" class="btn btn-xs btn-danger" value="Delete">
                 				</form>
                     		<% } %>                        
                         </span>                        
-                    </span>
+                    </div>
 
                 </div>
 
