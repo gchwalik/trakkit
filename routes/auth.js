@@ -1,10 +1,37 @@
 var express = require("express");
 var router = express.Router();
-var passport = require("passport");
+var passport = require("passport"),
+    nodemailer = require("nodemailer");
 
 var User = require("../models/user");
 
 var middleware = require("../middleware/auth");
+
+
+//Setting up nodemailer
+// create reusable transporter object using the default SMTP transport
+let transporter = nodemailer.createTransport({
+    host: 'smtp.gmail.com',
+    port: 465,
+    secure: true, // secure:true for port 465, secure:false for port 587
+    auth: {
+        user: 'gchwalik.dev@gmail.com',
+        pass: 'Secure My Email!!!'
+    }
+});
+
+// setup email data with unicode symbols
+let mailOptions = {
+    from: '"Fred Foo 👻" <foo@blurdybloop.com>', // sender address
+    to: 'gcchwalik@gmail.com', // list of receivers
+    subject: 'Hello ✔', // Subject line
+    text: 'Hello world ?', // plain text body
+    html: '<b>Hello world ?</b>' // html body
+};
+
+
+
+
 
 // Auth Routes
 // show sign up form
@@ -32,6 +59,15 @@ router.post("/register", function(req, res) {
 			req.flash("success", "Successfully created account for " + req.body.username + "." );
 			res.redirect("/events");
 		});
+		
+		transporter.sendMail(mailOptions, (error, info) => {
+		    if (error) {
+		        console.log(error);
+				res.redirect("/");
+		    }
+		    console.log('Message %s sent: %s', info.messageId, info.response);
+		});
+
 	});	
 });
 

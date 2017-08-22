@@ -1,3 +1,7 @@
+// If working in c9, before running the first time, run 
+// nvm install 6
+// to upgrade from node 4 to 6
+
 var express = require("express"),
     mongoose = require("mongoose"),
     flash = require("connect-flash"),
@@ -20,8 +24,14 @@ var authRoutes = require("./routes/auth.js"),
 //the contents of the index.js file
 var middleware = require("./middleware/auth.js");
 
+
+//========
+
+
+//connecting to the db
 mongoose.connect("mongodb://localhost/trakkit");
 
+//creating the express app and setting up configuration
 var app = express();
 app.set('view engine', 'ejs');
 //need this line anytime we're using a form and posting data to a request
@@ -31,7 +41,6 @@ app.use(express.static(__dirname + "/public"));
 app.use(methodOverride("_method"));
 app.use(flash());
 
-
 //inline declaration of a require()
 //running it as a function and passing in some arguments
 app.use(require("express-session") ({
@@ -39,6 +48,8 @@ app.use(require("express-session") ({
 	resave: false,
 	saveUninitialized: false
 }));
+
+
 
 //setting passport up so it will work in the app
 app.use(passport.initialize());
@@ -57,6 +68,10 @@ passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
+
+//========
+
+
 //this is a middleware where whatever we provide to it will be called on every route
 //whatever we put inside "res.locals" is available inside our template 
 app.use(function(req, res, next) {
@@ -71,12 +86,9 @@ app.use(function(req, res, next) {
 // ROUTES
 //===========
 
-
-
 app.get("/", function(req, res) {
 	res.render("home");
 });
-
 
 app.use("/", authRoutes);
 app.use("/events", eventRoutes);
@@ -85,7 +97,6 @@ app.use("/events/:id/time", timeRoutes);
 app.get("*", function(req, res) {
    res.redirect("/"); 
 });
-
 
 
 	
