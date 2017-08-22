@@ -38,14 +38,14 @@ router.post("/", authMiddleware.isLoggedIn, eventsMiddleware.checkEventOwnership
   //lookup campground using id
   Event.findById(req.params.id, function(err, foundEvent) {
     if(err) {
-      console.log(err);
+      req.flash("error", "Something went wrong.");
       res.redirect("/events");
     }
     else {
       //create new comment
       LoggedTime.create(req.body.time, function(err, time) {
         if(err) {
-          console.log("Something went wrong");
+          req.flash("error", "Something went wrong.");
           res.redirect("/events/" + foundEvent._id);
         }
         else {
@@ -77,11 +77,11 @@ router.post("/", authMiddleware.isLoggedIn, eventsMiddleware.checkEventOwnership
           time.owner.username = req.user.username;
           time.save();
           
-          //connect new comment to campground
+          //connect new logged_time to event
           foundEvent.logged_times.push(time);
           foundEvent.save();
 
-          console.log("Successfully added comment");
+          req.flash("success", "Successfully logged time.");
           //redirect to campground show page
           res.redirect('/events/' + foundEvent._id);
         } //else
@@ -103,6 +103,7 @@ router.get("/:time_id/edit",
       else {
         LoggedTime.findById(req.params.time_id, function(err, foundTime) {
           if(err) {
+            req.flash("error", "Something went wrong.");
             res.redirect("back");
           }
           else {
@@ -120,28 +121,20 @@ router.put("/:time_id",
   eventsMiddleware.checkEventOwnership, 
   timeMiddleware.checkLoggedTimeOwnership,
   function(req, res) {
-    
-    console.log("a");
-    //lookup campground using id
+    //lookup event using id
     Event.findById(req.params.id, function(err, foundEvent) {
       if(err) {
-        console.log("b");
-        console.log(err);
+        req.flash("error", "Something went wrong.");
         res.redirect("/events/:id");
       }
       else {
-        console.log("c");
-        //create new comment
+        //create new logged_time
         LoggedTime.findById(req.params.time_id, function(err, foundTime) {
           if(err) {
-            console.log("d");
-            console.log("Something went wrong");
+            req.flash("error", "Something went wrong.");
             res.redirect("/events/:id");
           }
           else {
-            console.log(foundTime);
-            console.log("e");
-            
             var time = req.body.time;
             time.start = new Date(time.start);
             time.end = new Date(time.end);
@@ -170,20 +163,14 @@ router.put("/:time_id",
             foundTime.hours = end.diff(start, "hours");
             foundTime.minutes = end.diff(start, "minutes")%60;
   
-            console.log("f");
-            
-            console.log(foundTime);
-            
             foundTime.save();
-  
-            console.log("g");
   
             // foundTime.update({start: foundTime.start, end: foundTime.end, hours: hours, minutes: minutes, 
             //   startYear: startYear, startMonth: startMonth, startDate: startDate, startHour: startHour, startMinute: startMinute,
             //   endYear: endYear, endMonth: endMonth, endDate: endDate, endHour: endHour, endMinute: endMinute
             // });
   
-            console.log("Successfully added comment");
+            req.flash("success", "Successfully updated logged time.");
             //redirect to campground show page
             res.redirect('/events/' + foundEvent._id);
           } //else
@@ -201,9 +188,11 @@ router.delete("/:time_id",
   function(req, res) {
     LoggedTime.findByIdAndRemove(req.params.time_id, function(err) {
       if(err) {
+        req.flash("error", "Something went wrong");
         res.redirect("back");
       }
       else {
+        req.flash("success", "Successfully deleted logged time.");
         res.redirect("/events/" + req.params.id);
       }
     });

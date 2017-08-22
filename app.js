@@ -1,5 +1,6 @@
 var express = require("express"),
     mongoose = require("mongoose"),
+    flash = require("connect-flash"),
     methodOverride = require("method-override"),
     passport = require("passport"),
     bodyParser = require("body-parser"),
@@ -28,6 +29,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 //__dirname refers to the dir this script is run from
 app.use(express.static(__dirname + "/public"));
 app.use(methodOverride("_method"));
+app.use(flash());
 
 
 //inline declaration of a require()
@@ -59,10 +61,10 @@ passport.deserializeUser(User.deserializeUser());
 //whatever we put inside "res.locals" is available inside our template 
 app.use(function(req, res, next) {
   res.locals.currentUser = req.user;
-  //res.locals.error = req.flash("error");
-  //res.locals.success = req.flash("success");
+  res.locals.error = req.flash("error");
+  res.locals.success = req.flash("success");
   next();
-});
+}); 
 
 
 //===========

@@ -22,7 +22,7 @@ var authMiddleware = require("../middleware/auth.js"),
 router.get("/", authMiddleware.isLoggedIn, function(req, res) {
 	Event.find({"owner.id": req.user._id}, function(err, allEvents) {
 	  if(err) {
-	    console.log(err);
+      req.flash("error", "Something went wrong");
 	    res.redirect("/");
 	  }
 	  else {
@@ -47,13 +47,14 @@ router.post("/", authMiddleware.isLoggedIn, function(req, res) {
   //Create new campground and save to DB
   Event.create(newEvent, function(err, newlyCreated) {
     if(err) {
-      console.log(err);
+      req.flash("error", "Something went wrong");
       res.redirect("/");
     }
     else {
       //redirect back to campgrounds page
       //default is to redirect with a GET requests
-      res.redirect("/events");      
+      req.flash("success", "Successfully created Event " + name);
+      res.redirect("/events");
     }
    });
 
@@ -70,12 +71,11 @@ router.get("/:id", authMiddleware.isLoggedIn, eventsMiddleware.checkEventOwnersh
   //find the campground with provided ID
   Event.findById(req.params.id).populate("logged_times").exec(function(err, foundEvent) {
     if(err) {
-      console.log(err);
+      req.flash("error", "Something went wrong");
       res.redirect("/events");
     }
     else {
       //sort logged_time
-      console.log(foundEvent.logged_times);
       foundEvent.logged_times.sort(timeMiddleware.sortDates);
       
       //render show template with campground
@@ -89,7 +89,7 @@ router.get("/:id", authMiddleware.isLoggedIn, eventsMiddleware.checkEventOwnersh
 router.get("/:id/edit", authMiddleware.isLoggedIn, eventsMiddleware.checkEventOwnership, function(req, res) {
   Event.findById(req.params.id, function(err, foundEvent) {
     if(err) {
-      console.log(err);
+      req.flash("error", "Something went wrong");
       res.redirect("/events");
     }
     else {
@@ -103,10 +103,12 @@ router.put("/:id", authMiddleware.isLoggedIn, eventsMiddleware.checkEventOwnersh
   //find and update the correct event
   Event.findByIdAndUpdate(req.params.id, req.body.event, function(err, updatedEvent) {
     if(err) {
+      req.flash("error", "Something went wrong");
       res.redirect("/events");
     }
     else {
       //redirect somewhere (show page)
+      req.flash("success", "Successfully edited Event " + req.body.event.name);
       res.redirect("/events/" + req.params.id);
     }
   });
@@ -116,6 +118,7 @@ router.put("/:id", authMiddleware.isLoggedIn, eventsMiddleware.checkEventOwnersh
 router.delete("/:id", authMiddleware.isLoggedIn, eventsMiddleware.checkEventOwnership, function(req, res) {
   Event.findById(req.params.id).populate("logged_times").exec(function(err, foundEvent) {
     if(err) {
+      req.flash("error", "Something went wrong");
       res.redirect("back");
     }
     else {
@@ -125,15 +128,18 @@ router.delete("/:id", authMiddleware.isLoggedIn, eventsMiddleware.checkEventOwne
         console.log(times[i]._id);
         LoggedTime.findByIdAndRemove(times[i]._id, function(err) {
           if(err) {
+            req.flash("error", "Something went wrong");
             res.redirect("back");
           }
         });
       } //for
       Event.remove({ "_id": req.params.id}, function(err) {
         if(err) {
+          req.flash("error", "Something went wrong");
           res.redirect("/events");
         }
         else {
+          req.flash("success", "Successfully deleted event.")
           res.redirect("/events");
         }
       }); //Event.remove()

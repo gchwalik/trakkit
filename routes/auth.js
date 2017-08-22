@@ -20,8 +20,8 @@ router.post("/register", function(req, res) {
 	//to the new User object, and then passes is back in the callback function arg "user"
 	User.register(new User({username: req.body.username, email: req.body.email}), req.body.password, function(err, user) {
 		if(err) {
-			console.log(err);
-			return res.render('register');
+			req.flash("error", err.message);
+			return res.redirect('/register');
 		}
 		//this next bit happens once the user has been created and there is no error
 		//passport.authenticate() actually logs the user in, takes care of everything in 
@@ -29,9 +29,10 @@ router.post("/register", function(req, res) {
 		// and specifically uses the "local" strategy as specified below
 		//Could optionally use "twitter" or "facebook", or any other strategy
 		passport.authenticate("local")(req, res, function() {
+			req.flash("success", "Successfully created account for " + req.body.username + "." );
 			res.redirect("/events");
 		});
-	});
+	});	
 });
 
 // LOGIN ROUTES
@@ -49,7 +50,9 @@ router.get("/login", function(req, res) {
 //handler of the route (callback function), that sits at the end
 router.post("/login", passport.authenticate("local", {
 	successRedirect: "/events",
-	failureRedirect: "/login"
+	failureRedirect: "/login",
+	successFlash: "Successfully logged in.",
+	failureFlash: true
 }), function(req, res) {
 	
 });
@@ -61,12 +64,13 @@ router.get("/logout", function(req, res) {
 	//whats actually happening - passport is destroying all the user data in this session
 	//no longer saving this from session to session
 	req.logout();
+	req.flash("success", "Successfully logged out.")
 	res.redirect("/");
 });
 
 
 router.get("/user", middleware.isLoggedIn, function(req, res) {
-  res.render("user");	
+  res.render("user");
 });
 
 module.exports = router;
