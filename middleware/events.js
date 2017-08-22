@@ -8,10 +8,16 @@ middlewareObj.checkEventOwnership = function(req, res, next) {
   if(req.isAuthenticated()) {
     Event.findById(req.params.id, function(err, foundEvent) {
       if(err) {
-        console.log(err);
+        req.flash("error", "Something went wrong");
+        res.redirect("back");
+      }
+      else if(foundEvent === null) {
+        req.flash("error", "That event does not exist");
         res.redirect("back");
       }
       else {
+        console.log("found event");
+        
         //does user own the event
         //foundEvent.owner.id is a js/mongoose object
         //req.user._id is a String
@@ -20,7 +26,7 @@ middlewareObj.checkEventOwnership = function(req, res, next) {
           next();
         }
         else {
-          console.log("You don't have permission to do that");
+          req.flash("error", "You don't have permission to do that");
           //otherwise, redirect
           res.redirect("back");      
         }
@@ -28,7 +34,7 @@ middlewareObj.checkEventOwnership = function(req, res, next) {
     });
   }
   else {
-    console.log("You need to be logged in to do that");
+    req.flash("error", "You need to be logged in to do that");
     //take user back to the previous page they were on
     res.redirect("back");
   }

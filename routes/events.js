@@ -70,7 +70,7 @@ router.get("/new", authMiddleware.isLoggedIn, function(req, res) {
 router.get("/:id", authMiddleware.isLoggedIn, eventsMiddleware.checkEventOwnership, function(req, res) {
   //find the campground with provided ID
   Event.findById(req.params.id).populate("logged_times").exec(function(err, foundEvent) {
-    if(err) {
+    if(err || foundEvent === null) {
       req.flash("error", "Something went wrong");
       res.redirect("/events");
     }
@@ -139,7 +139,7 @@ router.delete("/:id", authMiddleware.isLoggedIn, eventsMiddleware.checkEventOwne
           res.redirect("/events");
         }
         else {
-          req.flash("success", "Successfully deleted event.")
+          req.flash("success", "Successfully deleted event");
           res.redirect("/events");
         }
       }); //Event.remove()

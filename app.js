@@ -82,7 +82,9 @@ app.use("/", authRoutes);
 app.use("/events", eventRoutes);
 app.use("/events/:id/time", timeRoutes);
 
-
+app.get("*", function(req, res) {
+   res.redirect("/"); 
+});
 
 
 
